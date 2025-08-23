@@ -1,6 +1,8 @@
+// src/app/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'; // Import the router
 import { useAccount, useModal, useWallet, useSignMessage } from "@getpara/react-sdk";
 import { StatusAlert } from "@/components/ui/StatusAlert";
 import { ConnectWalletCard } from "@/components/ui/ConnectWalletCard";
@@ -8,11 +10,20 @@ import { SignMessageForm } from "@/components/ui/SignMessageForm";
 import { SignatureDisplay } from "@/components/ui/SignatureDisplay";
 
 export default function Home() {
+  const router = useRouter(); // Initialize the router
+  
   const [message, setMessage] = useState("Hello Para!");
   const { openModal } = useModal();
-  const { isConnected } = useAccount();
+  const { isConnected } = useAccount(); // Get the connection status from the correct hook
   const { data: wallet } = useWallet();
   const signMessageHook = useSignMessage();
+
+  // New useEffect hook to handle the redirection
+  useEffect(() => {
+    if (isConnected) {
+      router.push('/dashboard');
+    }
+  }, [isConnected, router]); // Dependency array to trigger on connection status change
 
   const address = wallet?.address;
 

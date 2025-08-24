@@ -1,7 +1,16 @@
 // src/app/dashboard/page.tsx
+'use client'; // This is required because we are using a client-side hook
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
+  const router = useRouter();
+
+  const handleCreateMetaClick = () => {
+    router.push('/dashboard/crear-meta');
+  };
+
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
       {/* Dashboard Title */}
@@ -16,6 +25,7 @@ export default function DashboardPage() {
       {/* "Crear Meta" button */}
       <div style={{ marginTop: '20px' }}>
         <button 
+          onClick={handleCreateMetaClick} // Add the click handler here
           style={{
             width: '100%', 
             padding: '15px', 
